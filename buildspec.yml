@@ -1,0 +1,15 @@
+version: 0.1
+
+phases:
+  pre_build:
+    commands:
+      - echo Installing SAST Tool...
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+      - unzip sonar-scanner-cli-4.6.2.2472-linux.zip
+      - mv sonar-scanner-4.6.2.2472-linux /opt/sonar-scanner
+      - chmod -R 775 /opt/sonar-scanner
+  build:
+    commands:
+      - echo Build started on `date`
+      - /opt/sonar-scanner/bin/sonar-scanner -Dsonar.projectKey=laravel-test-build -Dsonar.sources=. -Dsonar.host.url=http://100.27.10.210:9000 -Dsonar.login=518c9f539b2e3857589f01d624f3b9b5f2cb1d7f > sonarqube_scanreport.json
+      - echo Build complete on `date`
